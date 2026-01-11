@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>
+        pracownik
+    </h1>
+    <form id="user_form" action="">
+        <input type="text" id="login">
+        <input type="text" id="haslo">
+        <input type="text" id="email">
+        <input type="text" id="imie">
+        <input type="text" id="nazwisko">
+        <input type="number" id="wiek">
+        <input type="text" id="status">
+        <input type="file" id="zdjecie">
+        <input type="text" id="opis">
+
+        <button type="submit">Dodaj użytkownika</button>
+    </form>
+    
+    <script>
+        document.getElementById("user_form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const login = document.getElementById("login").value.trim();
+            const haslo = document.getElementById("haslo").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const imie = document.getElementById("imie").value.trim();
+            const nazwisko = document.getElementById("nazwisko").value.trim();
+            const wiek = document.getElementById("wiek").value.trim();
+            const status = document.getElementById("status").value.trim();
+            const zdjecie = document.getElementById("zdjecie");
+                const plik = zdjecie.files[0];
+            const opis = document.getElementById("opis").value.trim();
+
+            if(!plik){
+                alert("hobisiak kn000rze where zdjecie");
+                return;
+            }
+
+            const form_data = new FormData();
+            form_data.append ("login", login);
+            form_data.append ("haslo", haslo);
+            form_data.append ("email", email);
+            form_data.append ("imie", imie);
+            form_data.append ("nazwisko", nazwisko);
+            form_data.append ("wiek", wiek);
+            form_data.append ("status", status);
+            form_data.append ("zdjecie", plik);
+            form_data.append ("opis", opis);
+
+            try{
+                const response = await fetch("http://localhost:8080/api/uzytkownicy/rejestracja", {
+                    method:"POST", body:form_data
+                });
+                if(!response){alert("HOBISIAK WHERE ANSWER")}
+            }
+            catch(error){
+                alert("HOBISIAK ALARM "+error)
+            }
+        });
+    </script>
+
+</body>
+
+</html>
