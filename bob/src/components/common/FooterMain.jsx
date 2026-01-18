@@ -6,7 +6,7 @@ import "../css/footer.css"
 const FooterMain = () => {
     return(
     <div className="container-fluid">
-    <footer className="row border-top fixed-bottom" id="customFooter">
+    <footer className="row border-top" id="customFooter">
             <div className="col mb-3 ms-md-4 mt-md-3">
                 <h5>Linki</h5>
                 <ul className="nav flex-column">
