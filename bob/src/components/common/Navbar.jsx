@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-primary fixed-top customNavbar"  id="customNavbar">
       <div className="container">
-        <a class="navbar-brand" href="/">
+        <a className="navbar-brand" href="/">
         <img src="../../src/img/logo.png" width="45" height="45" alt="nie działa" />
         </a>
         <Link className="navbar-brand" to="/">Projekt BOB</Link>
