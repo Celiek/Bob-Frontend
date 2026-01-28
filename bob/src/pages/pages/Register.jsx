@@ -62,6 +62,15 @@ export default function Register() {
                 return;
             }
 
+            if (response.status === 409) {
+                const text = await response.json();
+                setMessage(text.message);
+                return;
+            }
+
+            const text = await response.text();
+            setMessage(text.message)
+
             setMessage("Poprawnie zarejestrowano");
         } catch (error){
             setMessage("Błąd podczas łączenia z serwerem !");

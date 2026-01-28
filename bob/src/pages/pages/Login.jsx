@@ -10,7 +10,7 @@ export default function Login() {
 
     const[form,setForm] = useState({
         login: "",
-        password: "",
+        haslo: "",
     });
 
     const [message, setMessage] = useState("");
@@ -22,34 +22,85 @@ export default function Login() {
         });
     };
 
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
+
+      if (!response.ok) {
+        throw new Error("Błędne dane logowania");
+      }
+
+      const data = await response.json();
+
+      // ZAPIS JWT
+      localStorage.setItem("jwt", data.token);
+      localStorage.setItem("user", JSON.stringify({
+        login: data.login,
+        role: data.role
+      }));
+
+      navigate("/"); // landing page
+
+    } catch (err) {
+      setMessage("Nieprawidłowy login lub hasło");
+    }
+  };
+
     return(
         <div>
             <Navbar/>
-                <div className="container form-wrapper pb-5">
-                    <div className="form-center">
-                        <div className="card shadow-lg p-4">
-                            <h3 className="text-center mb-4">Logowanie</h3>
-                            <form action="">
-                                <div className="mb-3">
-                                    <label className="form-label">Login </label>
-                                    <input type="text"
-                                    className="form-control"
-                                    />
-                                </div>
+      <div className="container form-wrapper pb-5">
+        <div className="form-center">
+          <div className="card shadow-lg p-4">
 
-                                <div className="mb-3">
-                                    <label className="form-label">Haslo</label>
-                                    <input type="text" 
-                                    className="form-control"/>
-                                </div>
+            <h3 className="text-center mb-4">Logowanie</h3>
 
-                                <button className="btn btn-primary w-100" type="submit">
-                                Zaloguj Się
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            {message && (
+              <div className="alert alert-danger text-center">
+                {message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+
+              <div className="mb-3">
+                <label className="form-label">Login</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="login"
+                  value={form.login}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Hasło</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="haslo"
+                  value={form.haslo}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <button className="btn btn-primary w-100" type="submit">
+                Zaloguj się
+              </button>
+
+            </form>
+          </div>
+        </div>
+      </div>
             <FooterMain/>
         </div>
     )
