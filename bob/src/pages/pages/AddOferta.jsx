@@ -2,12 +2,13 @@ import { useState } from "react";
 
 export default function AddOferta() {
 
-  const [tytul, setTytul] = useState("");
+  const [nazwa, setNazwa] = useState("");
   const [opis, setOpis] = useState("");
   const [cena, setCena] = useState("");
   const [miasto, setMiasto] = useState("");
   const [zdjecie, setZdjecie] = useState(null);
   const [result, setResult] = useState(null);
+  const [krotkiOpis, setKrotkiOpis] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,11 +17,15 @@ export default function AddOferta() {
 
     const formData = new FormData();
 
+    const status = "Aktywna";
+
     const offerDto = {
-      tytul,
+      nazwa,
       opis,
+      krotkiOpis,
       cena: Number(cena),
-      miasto
+      miasto,
+      status
     };
 
     formData.append(
@@ -52,8 +57,8 @@ export default function AddOferta() {
 
         <input
           placeholder="Tytuł"
-          value={tytul}
-          onChange={e => setTytul(e.target.value)}
+          value={nazwa}
+          onChange={e => setNazwa(e.target.value)}
         />
 
         <br />
@@ -62,6 +67,12 @@ export default function AddOferta() {
           placeholder="Opis"
           value={opis}
           onChange={e => setOpis(e.target.value)}
+        />
+
+        <textarea 
+            placeholder="Krótki Opis"
+            value={krotkiOpis}
+            onChange={e => setKrotkiOpis(e.target.value)}
         />
 
         <br />
