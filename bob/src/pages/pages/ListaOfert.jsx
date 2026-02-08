@@ -1,78 +1,119 @@
-import React, {useEffect,useState} from "react";
-import { apiFetch } from "../../utils/api";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import Navbar from "../../components/common/Navbar";
+import FooterMain from "../../components/common/FooterMain";
+import SearchComponent from "../../components/common/SearchComponent";
+import "../../components/css/offersLayout.css";
 
 export default function ListaOfert() {
-    const [offers, setOffers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+  const [offers, setOffers] = useState([]);      // ✅ BRAKOWAŁO
+  const [pageInfo, setPageInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    console.log("ListaOfert render");
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
     fetchOffers();
-  }, []);
+  }, [searchParams]);
 
   const fetchOffers = async () => {
     try {
-      const token = localStorage.getItem("jwt");
+      setLoading(true);
 
-      const response = await fetch("http://localhost:8080/api/offers");
+      const params = new URLSearchParams({
+        page: searchParams.get("page") ?? 0,
+        size: searchParams.get("size") ?? 25,
+        miasto: searchParams.get("miasto") ?? "",
+        minStawka: searchParams.get("minStawka") ?? "",
+        maxStawka: searchParams.get("maxStawka") ?? "",
+        sortBy: searchParams.get("sortBy") ?? "createdAt",
+        direction: searchParams.get("direction") ?? "desc"
+      });
 
-      if (!response.ok) {
+      const res = await fetch(
+        `http://localhost:8080/api/offers/search?${params.toString()}`
+      );
+
+      if (!res.ok) {
         throw new Error("Błąd pobierania ofert");
       }
 
-      const data = await response.json();
-      setOffers(data);
+      const data = await res.json();
 
+      setOffers(Array.isArray(data.content) ? data.content : []);
+      setPageInfo(data);
     } catch (err) {
-      setError("Nie udało się pobrać ofert " + err);
+      console.error(err);
+      setOffers([]);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <p>⏳ Ładowanie ofert...</p>;
-  if (error) return <p className="text-danger">{error}</p>;
-
   return (
-    <div className="container mt-4">
-      <h3>Lista ofert</h3>
+    <>
+      <Navbar />
 
-      <table className="table table-bordered table-hover mt-3">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Nazwa</th>
-            <th>Opis</th>
-            <th>Krótki opis</th>
-            <th>Stawka</th>
-            <th>Miasto</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+      <div className="offers-layout">
+        {/* LEWA KOLUMNA – FILTRY */}
+        <aside className="filters">
+          <SearchComponent />
+        </aside>
 
-        <tbody>
-          {offers.map(offer => (
-            <tr key={offer.id}>
-              <td>{offer.id}</td>
-              <td>{offer.nazwa}</td>
-              <td>{offer.opis}</td>
-              <td>{offer.krotkiOpis}</td>
-              <td>{offer.stawka} zł</td>
-              <td>{offer.miasto}</td>
-              <td>
-                <span className={
-                  offer.status === "AKTYWNA"
-                    ? "badge bg-success"
-                    : "badge bg-secondary"
-                }>
-                  {offer.status}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        {/* PRAWA KOLUMNA – WYNIKI */}
+        <main className="results">
+          <h3>Lista ofert</h3>
+
+          {loading && <p>⏳ Ładowanie...</p>}
+
+          {!loading && offers.length === 0 && (
+            <p>Brak wyników</p>
+          )}
+
+          {!loading && offers.length > 0 && (
+            <ul className="list-group">
+            {offers.map(o => {
+              const imageUrl =
+                Array.isArray(o.images) && o.images.length > 0
+                  ? o.images[0]               // ✅ pierwsze zdjęcie
+                  : "/no-image.png";           // ❌ brak zdjęcia (public/no-image.png)
+
+              return (
+                <li key={o.id} className="list-group-item d-flex gap-3">
+                  
+                  {/* ZDJĘCIE */}
+                  <img
+                    src={imageUrl}
+                    alt={o.nazwa}
+                    style={{
+                      width: "120px",
+                      height: "90px",
+                      objectFit: "cover",
+                      borderRadius: "8px"
+                    }}
+                  />
+
+                  <div>
+                    <b>{o.nazwa}</b>
+                    <div>{o.miasto}</div>
+                    <div>{o.stawka ?? "—"} zł</div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          )}
+
+          {/* INFO O STRONACH */}
+          {pageInfo && pageInfo.totalPages > 1 && (
+            <div className="mt-3 text-muted">
+              Strona {pageInfo.number + 1} z {pageInfo.totalPages}
+            </div>
+          )}
+        </main>
+      </div>
+
+      <FooterMain />
+    </>
   );
 }
