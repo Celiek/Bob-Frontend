@@ -3,12 +3,14 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import FooterMain from "../../components/common/FooterMain";
 import SearchComponent from "../../components/common/SearchComponent";
+import { useNavigate } from "react-router-dom";
 import "../../components/css/offersLayout.css";
 
 export default function ListaOfert() {
-  const [offers, setOffers] = useState([]);      // ✅ BRAKOWAŁO
+  const [offers, setOffers] = useState([]);
   const [pageInfo, setPageInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
 
@@ -55,12 +57,10 @@ export default function ListaOfert() {
       <Navbar />
 
       <div className="offers-layout">
-        {/* LEWA KOLUMNA – FILTRY */}
         <aside className="filters">
           <SearchComponent />
         </aside>
 
-        {/* PRAWA KOLUMNA – WYNIKI */}
         <main className="results">
           <h3>Lista ofert</h3>
 
@@ -75,13 +75,17 @@ export default function ListaOfert() {
             {offers.map(o => {
               const imageUrl =
                 Array.isArray(o.images) && o.images.length > 0
-                  ? o.images[0]               // ✅ pierwsze zdjęcie
-                  : "/no-image.png";           // ❌ brak zdjęcia (public/no-image.png)
+                  ? o.images[0]              
+                  : "/no-image.png";       
 
               return (
-                <li key={o.id} className="list-group-item d-flex gap-3">
-                  
-                  {/* ZDJĘCIE */}
+                <li
+                  key={o.id}
+                  style={{ cursor: "pointer" }}
+                  className="list-group-item d-flex gap-3"
+                  onClick={() => navigate(`/oferta/${o.id}`)}
+                  >
+
                   <img
                     src={imageUrl}
                     alt={o.nazwa}
@@ -104,7 +108,6 @@ export default function ListaOfert() {
           </ul>
           )}
 
-          {/* INFO O STRONACH */}
           {pageInfo && pageInfo.totalPages > 1 && (
             <div className="mt-3 text-muted">
               Strona {pageInfo.number + 1} z {pageInfo.totalPages}

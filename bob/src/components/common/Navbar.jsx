@@ -22,13 +22,13 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/register">Rejestracja</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/czat">Czat</Link>
+              <Link className="nav-link" to="/home">Strona główna</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/login">Logowanie</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/konto">Konto</Link>
             </li>
           </ul>
         </div>

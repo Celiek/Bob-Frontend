@@ -97,6 +97,14 @@ export default function Login() {
                 Zaloguj się
               </button>
 
+              
+              <button
+                className="btn btn-outline-secondary w-100 mt-2"
+                type="button"
+                onClick={() => navigate("/register")}
+              >
+                Rejestracja
+              </button>
             </form>
           </div>
         </div>

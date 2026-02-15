@@ -8,6 +8,7 @@ import AddOferta from "./pages/pages/AddOferta.jsx";
 import ListaOfert from "./pages/pages/ListaOfert.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import Offers from "./pages/pages/Offers.jsx";
+import OfertaDetails from "./pages/pages/OfertaDetails.jsx";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         }/>
         <Route path="/offers" element={<Offers/>} />
         <Route path="/listaOfert" element={<ListaOfert/>}/>
+        <Route path="/oferta/:id" element={<OfertaDetails />} />
       </Routes>
     </BrowserRouter>
   );
