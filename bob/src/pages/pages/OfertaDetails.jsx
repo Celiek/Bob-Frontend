@@ -14,7 +14,12 @@ export default function OfertaDetails(){
 
     const fetchOffer = async () => {
         const res = await fetch(`http://localhost:8080/api/offers/${id}`);
-        const data = res.json();
+
+        if (!res.ok){
+          throw new Error("Nie znaleziono oferty");
+        }
+
+        const data = await  res.json();
 
         setOffer(data);
         setLoading(false);

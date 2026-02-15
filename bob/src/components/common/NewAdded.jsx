@@ -33,7 +33,6 @@ export default function NewAdded() {
               style={{ cursor: "pointer" }}
               onClick={() => navigate(`/oferta/${o.id}`)}
             >
-              {/* ZDJĘCIE */}
               <img
                 src={
                   o.images?.length > 0
@@ -45,7 +44,6 @@ export default function NewAdded() {
                 style={{ height: "200px", objectFit: "cover" }}
               />
 
-              {/* TREŚĆ */}
               <div className="card-body">
                 <h5 className="card-title">{o.nazwa}</h5>
 
@@ -58,7 +56,7 @@ export default function NewAdded() {
                 </p>
               </div>
 
-              {/* STOPKA */}
+
               <div className="card-footer bg-white border-0">
                 <span className="badge bg-success">{o.status}</span>
               </div>
