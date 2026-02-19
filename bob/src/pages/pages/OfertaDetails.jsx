@@ -35,13 +35,51 @@ export default function OfertaDetails(){
       <h2>{offer.nazwa}</h2>
 
       {offer.images?.length > 0 && (
-        <img
-          src={offer.images[0]}
-          alt={offer.nazwa}
-          className="img-fluid mb-3"
-          style={{ maxHeight: "400px", objectFit: "cover" }}
-        />
-      )}
+  <div
+    id="offerCarousel"
+    className="carousel slide mb-4"
+    data-bs-ride="carousel"
+  >
+    <div className="carousel-inner">
+      {offer.images.map((img, index) => (
+        <div
+          key={img}
+          className={`carousel-item ${index === 0 ? "active" : ""}`}
+        >
+          <img
+            src={img}
+            className="d-block w-100"
+            alt={`Zdjęcie ${index + 1}`}
+            style={{
+              maxHeight: "450px",
+              objectFit: "cover",
+              borderRadius: "8px"
+            }}
+          />
+        </div>
+      ))}
+    </div>
+
+      <button
+        className="carousel-control-prev"
+        type="button"
+        data-bs-target="#offerCarousel"
+        data-bs-slide="prev"
+      >
+        <span className="carousel-control-prev-icon" />
+      </button>
+
+      <button
+        className="carousel-control-next"
+        type="button"
+        data-bs-target="#offerCarousel"
+        data-bs-slide="next"
+      >
+        <span className="carousel-control-next-icon" />
+      </button>
+    </div>
+  )}
+
 
       <p><b>Miasto:</b> {offer.miasto}</p>
       <p><b>Stawka:</b> {offer.stawka ?? "Brak danych"} zł</p>
