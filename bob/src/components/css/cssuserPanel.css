@@ -1,0 +1,37 @@
+.user-panel {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f6fa;
+}
+
+.sidebar {
+    width: 240px;
+    background: #1e1e2f;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar .logo {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar a {
+    display: block;
+    color: #cfd2ff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+    background: #3f46ff;
+    color: white;
+}
+
+.content {
+    flex: 1;
+    padding: 30px;
+}

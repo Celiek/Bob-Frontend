@@ -26,6 +26,11 @@ export default function App() {
         <Route path="/offers" element={<Offers/>} />
         <Route path="/listaOfert" element={<ListaOfert/>}/>
         <Route path="/oferta/:id" element={<OfertaDetails />} />
+        <Route path="/panel" element={<UserPanelLayout />}>
+          <Route path="dashboard" element={<Dashboard/>} />
+          <Route path="oferty" element={<MyOffers/>} />
+          <Route path="profil" element={<Profile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
