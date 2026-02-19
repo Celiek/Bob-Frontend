@@ -5,7 +5,7 @@ export default function Dashboard() {
     return(
         <>
             <Navbar/>
-            <h3>Dashboard (dodać kod tutaj)</h3>
+            <h3>Profile (dodać kod tutaj)</h3>
             <FooterMain/>
         </>
     );

@@ -9,6 +9,10 @@ import ListaOfert from "./pages/pages/ListaOfert.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import Offers from "./pages/pages/Offers.jsx";
 import OfertaDetails from "./pages/pages/OfertaDetails.jsx";
+import UserPanelLayout from "./pages/pages/UserPanelLayout.jsx";
+import Dashboard from "./pages/pages/MyOffers.jsx";
+import MyOffers from "./pages/pages/MyOffers.jsx"
+import Profile from "./pages/pages/Profile.jsx";
 
 export default function App() {
   return (

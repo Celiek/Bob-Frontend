@@ -1,5 +1,5 @@
-import Navbar from "../components/common/Navbar";
-import FooterMain from "../components/common/FooterMain";
+import Navbar from "../../components/common/Navbar";
+import FooterMain from "../../components/common/FooterMain";
 
 export default function Dashboard() {
     return(
